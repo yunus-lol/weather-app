@@ -1,4 +1,4 @@
 import "./styles.css";
-import { greeting } from "./script.js";
+import { getTodaysData } from "./script";
 
-console.log(greeting);
+getTodaysData();

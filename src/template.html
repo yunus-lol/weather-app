@@ -3,9 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>weather app</title>
 </head>
 <body>
-  
+  <div class="top-panel">
+    <div class="panel-right">
+      <input type="text" id="city-search" placeholder="search for city..">
+      <img src="images/mode-switcher.png" alt="mode switcher" class="mode-switcher" height="25" width="25">
+    </div>
+    <button class="toggle-unit">Toggle Celcius</button>
+  </div>
+  <h2 class="city-name">London</h2>
+  <div class="top-row">
+    <div class="today-info main-card">
+      <p class="today-date">01/02/2026</p>
+      <div class="text-section">
+        <div class="weather-icon">☀️</div>
+        <h1 class="today-temp"></h1>
+      </div>
+      <div class="min-max">
+        <p class="min">MIN: 5°C</p>
+        <p class="max">MAX: 26°C</p>
+      </div>
+    </div>
+    <div class="feels-like main-card">Feels Like</div>
+    <div class="sunrise-sunset main-card">Sunrise / Sunset</div>
+  </div>
 </body>
 </html>
