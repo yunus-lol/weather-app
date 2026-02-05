@@ -1,22 +1,26 @@
+let weatherData;
+
 export async function getTodaysData(city) {
   let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=AA9MY8ADE5P5E9RVNAB4XYZX6`;
   const response = await fetch(url);
   const data = await response.json();
+  weatherData = data;
   displayInfo(data);
 }
 
+let isCelcius = true;
 
-function displayInfo(data) {
+function displayInfo() {
   const todayTemp = document.querySelector(".today-temp");
-  todayTemp.textContent = `${toCelsius(data.currentConditions.temp)}°C`;
+  todayTemp.textContent = `${isCelcius ? toCelsius(weatherData.currentConditions.temp) : (weatherData.currentConditions.temp).toFixed()}${isCelcius ? "°C" : "°F"}`;
 
-  displayIcon(data.currentConditions.icon)
+  displayIcon(weatherData.currentConditions.icon)
 
   const minTemp = document.querySelector(".min");
   const maxTemp = document.querySelector(".max");
 
-  minTemp.textContent = `Min: ${toCelsius(data.days[0].tempmin)}°C`;
-  maxTemp.textContent = `Max: ${toCelsius(data.days[0].tempmax)}°C`;
+  minTemp.textContent = `Min: ${isCelcius ? toCelsius(weatherData.days[0].tempmin) : (weatherData.days[0].tempmin).toFixed()}${isCelcius ? "°C" : "°F"}`;
+  maxTemp.textContent = `Max: ${isCelcius ? toCelsius(weatherData.days[0].tempmax) : (weatherData.days[0].tempmax).toFixed()}${isCelcius ? "°C" : "°F"}`;
 
   const todaysDate = document.querySelector(".today-date");
   todaysDate.textContent = getDate();
@@ -27,6 +31,8 @@ function displayIcon(icon) {
 
   if (icon === "cloudy") {
     weatherIcon.textContent = "☁️"
+  } else if (icon === "rain") {
+    weatherIcon.textContent = "🌧️"
   }
 }
 
@@ -59,8 +65,8 @@ function getDate() {
 const searchBtn = document.querySelector(".search-button");
 const cityName = document.querySelector(".city-name");
 
-searchBtn.addEventListener("click", async () => {
-  let city = document.querySelector("#city-search").value.toLowerCase();
+searchBtn.addEventListener("click", () => {
+  const city = document.querySelector("#city-search").value.toLowerCase();
   if (city) {
     try {
       getTodaysData(city);
@@ -69,4 +75,10 @@ searchBtn.addEventListener("click", async () => {
       console.log(error);
     }
   }
+});
+
+const modeSwitcher = document.querySelector(".toggle-unit");
+modeSwitcher.addEventListener("click", () => {
+  isCelcius = !isCelcius
+  displayInfo()
 });
