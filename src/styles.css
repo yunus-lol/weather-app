@@ -7,8 +7,8 @@
 
 body {
   color: white;
-  background-image: url(images/pic8.avif);
-  background-size: cover;
+  background-image: linear-gradient(to bottom right, rgb(60, 0, 60), rgb(31, 1, 86), rgba(0, 0, 0, 0.88));
+  height: 100vh;
 }
 
 .top-panel {
@@ -22,12 +22,6 @@ body {
 .panel-right, .panel-left {
   display: flex;
   align-items: center;
-}
-
-.mode-switcher {
-  filter: invert(1);
-  margin-right: 2em;
-  cursor: pointer;
 }
 
 #city-search {
@@ -63,10 +57,15 @@ body {
 
 .top-row {
   display: grid;
-  grid-template-columns: 2fr repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(500px, auto));
   background-color: rgba(0, 0, 0, 0.15);
   margin: 0 2em;
   border-radius: 20px;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .main-card {
@@ -82,7 +81,20 @@ body {
 
 .today-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 2em;
+}
+
+.temps-row {
+  display: flex;
+  flex-direction: row;
+  margin-left: em;
+  padding: 0.5em 0;
+}
+
+.future-time {
+  margin-right: 2em;
 }
 
 .text-section {
@@ -112,13 +124,11 @@ body {
   padding: 0 15px;
 }
 
-.min, .max {
-  font-size: 0.9em;
+.min, .max, .today-date, .future-time, .future-temp {
   font-family: monospace;
   color: rgb(200, 200, 200);
 }
 
-.today-date {
-  font-family: monospace;
-  color: rgb(200, 200, 200); 
+.future-temps-table {
+  margin-right: 2em;
 }
