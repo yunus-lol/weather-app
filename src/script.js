@@ -27,6 +27,8 @@ function displayInfo() {
   todaysDate.textContent = getDate();
 
   displayFutureTemps();
+  displayFeelsLike();
+  displaySunriseSunset();
 }
 
 function displayIcon(icon) {
@@ -50,6 +52,8 @@ function displayIcon(icon) {
     weatherIcon.textContent = "❄️";
   } else if (icon === "snow-showers-day" || icon === "snow-showers-night") {
     weatherIcon.textContent = "🌨️";
+  } else {
+    weatherIcon.textContent = "☀️";
   }
 }
 
@@ -109,8 +113,36 @@ function displayFutureTemps() {
       </div>
     `;
 
-    futureTempsTable.appendChild(card)
+    futureTempsTable.appendChild(card);
   })
+}
+
+function displayFeelsLike() {
+  const feelsLike = document.querySelector(".feels-like");
+  const card = document.createElement("div");
+  feelsLike.innerHTML = "";
+  card.innerHTML = `
+    <div class="feels-like-title">Feels Like</div>
+    <h1 class="feels-like-temp">${isCelcius ? toCelsius(weatherData.days[0].feelslike) : weatherData.days[0].feelslike.toFixed()}${isCelcius ? "°C" : "°F"}</h1>
+    <p class="feels-like-description">${weatherData.days[0].description}</p>
+  `;
+
+  feelsLike.appendChild(card)
+}
+
+function displaySunriseSunset() {
+  const sunriseSunset = document.querySelector(".sunrise-sunset");
+  sunriseSunset.innerHTML = "";
+  const card = document.createElement("div");
+  card.innerHTML = `
+    <div class="sunrise-sunset-title">Sunrise/Sunset</div>
+    <div class="times-section">
+      <div class="sunrise">Sunrise: ${weatherData.currentConditions.sunrise.substr(1,4)}am</div>
+      <div class="sunset">Sunset: ${(weatherData.currentConditions.sunset.substr(0,2) - 12) + weatherData.currentConditions.sunset.substr(2,3)}pm</div>
+    </div>
+  `;
+
+  sunriseSunset.appendChild(card)
 }
 
 const searchBtn = document.querySelector(".search-button");
@@ -123,7 +155,7 @@ searchBtn.addEventListener("click", () => {
       getTodaysData(city);
       cityName.textContent = formatCityName(city);
     } catch(error) {
-      console.log(error);
+      throw new Error(error)
     }
   }
 });
