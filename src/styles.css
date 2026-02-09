@@ -158,3 +158,36 @@ body {
 .sunrise, .sunset {
   font-size: 0.9em;
 }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+  margin: 2em;
+  padding: 1em;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.card-item {
+  background-color: rgba(62, 62, 62, 0.25);
+  padding: 1em;
+  margin: 1em;
+  border-radius: 15px;
+  height: 20em;
+}
+
+.card-icon {
+  font-size: 2em;
+  margin: 0.5em 0.5em 0.5em 0;
+  border: 1px solid rgba(62, 62, 62, 0.7);
+  background-color: rgba(62, 62, 62, 0.2);
+  padding: 0.3em;
+  border-radius: 10px;
+  justify-self: center;
+}
+
+.card-temp {
+  margin: 1em 0;
+  font-weight: bold;
+  font-size: 1.2em;
+}

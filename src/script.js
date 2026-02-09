@@ -6,7 +6,6 @@ export async function getTodaysData(city) {
   const response = await fetch(url);
   const data = await response.json();
   weatherData = data;
-  console.log(data)
   displayInfo();
 }
 
@@ -14,7 +13,8 @@ function displayInfo() {
   const todayTemp = document.querySelector(".today-temp");
   todayTemp.textContent = `${isCelcius ? toCelsius(weatherData.currentConditions.temp) : (weatherData.currentConditions.temp).toFixed()}${isCelcius ? "°C" : "°F"}`;
 
-  displayIcon(weatherData.currentConditions.icon);
+  const weatherIcon = document.querySelector(".weather-icon")
+  weatherIcon.textContent = displayIcon(weatherData.currentConditions.icon);
 
   const minTemp = document.querySelector(".min");
   const maxTemp = document.querySelector(".max");
@@ -29,31 +29,30 @@ function displayInfo() {
   displayFutureTemps();
   displayFeelsLike();
   displaySunriseSunset();
+  displayCards();
 }
 
 function displayIcon(icon) {
-  const weatherIcon = document.querySelector(".weather-icon");
-
   if (icon === "cloudy" || icon === "partly-cloudy-night") {
-    weatherIcon.textContent = "☁️";
+    return "☁️";
   } else if (icon === "partly-cloudy-day") {
-    weatherIcon.textContent = "⛅";
+    return "⛅";
   } else if (icon === "rain" || icon === "showers-day" || icon === "showers-night") {
-    weatherIcon.textContent = "🌧️";
+    return "🌧️";
   } else if (icon === "clear-day" || icon === "clear-night") {
-    weatherIcon.textContent = "🌤️";
+    return "🌤️";
   } else if (icon === "fog") {
-    weatherIcon.textContent = "🌫️";
+    return "🌫️";
   } else if (icon === "wind") {
-    weatherIcon.textContent = "💨";
+    return "💨";
   } else if (icon === "thunder-rain" || icon === "thunder-showers-day" || icon === "thunder-showers-night") {
-    weatherIcon.textContent = "⛈️";
+    return "⛈️";
   } else if (icon === "snow") {
-    weatherIcon.textContent = "❄️";
+    return "❄️";
   } else if (icon === "snow-showers-day" || icon === "snow-showers-night") {
-    weatherIcon.textContent = "🌨️";
+    return "🌨️";
   } else {
-    weatherIcon.textContent = "☀️";
+    return "☀️";
   }
 }
 
@@ -82,6 +81,17 @@ function getDate() {
   return `${day}, ${month} ${adjustedDate.getDate()}`;
 }
 
+function getWeekDates() {
+  const dates = [];
+  for (let x = 1; x < 7; x++) {
+    const date = new Date;
+    date.setDate(date.getDate() + x);
+    dates.push(date.toDateString());
+  }
+
+  return dates;
+}
+
 function getFutureTemps() {
   const date = new Date;
   const offsetMinutes = weatherData.tzoffset * 60;
@@ -92,7 +102,7 @@ function getFutureTemps() {
   for (let x = 0; x < weatherData.days[0].hours.length; x++) {
     if (x > adjustedDate.getHours() && count !== 5) {
       count++;
-      arr.push(weatherData.days[0].hours[x])
+      arr.push(weatherData.days[0].hours[x]);
     }
   }
 
@@ -100,7 +110,7 @@ function getFutureTemps() {
 }
 
 function displayFutureTemps() {
-  const futureTempsTable = document.querySelector(".future-temps-table")
+  const futureTempsTable = document.querySelector(".future-temps-table");
 
   futureTempsTable.innerHTML = "";
   const arr = getFutureTemps();
@@ -127,7 +137,7 @@ function displayFeelsLike() {
     <p class="feels-like-description">${weatherData.days[0].description}</p>
   `;
 
-  feelsLike.appendChild(card)
+  feelsLike.appendChild(card);
 }
 
 function displaySunriseSunset() {
@@ -142,7 +152,39 @@ function displaySunriseSunset() {
     </div>
   `;
 
-  sunriseSunset.appendChild(card)
+  sunriseSunset.appendChild(card);
+}
+
+function getCardData() {
+  let arr = [];
+  for (let x = 1; x < 7; x++) {
+    arr.push(weatherData.days[x]);
+  }
+
+  return arr;
+}
+
+function displayCards() {
+  const cards = document.querySelector(".cards");
+  const cardData = getCardData();
+  cards.innerHTML = "";
+  let count = 0;
+
+  cardData.forEach(item => {
+    const card = document.createElement("div");
+    const index = cardData.indexOf(item)
+    count++;
+    card.innerHTML = `
+      <div class="card-item">
+        <div class="card-date today-date">${[getWeekDates()[index].substring(0,10).slice(0, 3), ",", getWeekDates()[index].substring(0,10).slice(3)].join("")}</div>
+        <div class="card-icon">${displayIcon(item.icon)}</div>
+        <div class="card-temp">${isCelcius ? toCelsius(item.temp) : item.temp.toFixed()}${isCelcius ? "°C" : "°F"}</div>
+        <div class="card-description">${item.description}</div>
+      </div>
+    `;
+
+    cards.appendChild(card);
+  });
 }
 
 const searchBtn = document.querySelector(".search-button");
@@ -155,7 +197,7 @@ searchBtn.addEventListener("click", () => {
       getTodaysData(city);
       cityName.textContent = formatCityName(city);
     } catch(error) {
-      throw new Error(error)
+
     }
   }
 });
