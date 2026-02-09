@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>weather app</title>
+<script defer src="main.js"></script></head>
+<body>
+  <div class="top-panel">
+    <div class="panel-right">
+      <input type="text" id="city-search" placeholder="Search for city.." autocomplete="off">
+      <button class="search-button">Search</button>
+    </div>
+    <div class="panel-left">
+      <button class="toggle-unit">Toggle Fahrenheit</button>
+    </div>
+  </div>
+  <h2 class="city-name">London</h2>
+  <div class="body">
+    <div class="top-row">
+      <div class="today-info main-card">
+        <div class="left-panel">
+          <p class="today-date"></p>
+          <div class="text-section">
+            <div class="weather-icon"></div>
+            <h1 class="today-temp"></h1>
+          </div>
+          <div class="min-max">
+            <p class="min"></p>
+            <p class="max"></p>
+          </div>
+        </div>
+        <div class="future-temps-table"></div>
+      </div>
+      <div class="info">
+        <div class="feels-like main-card"></div>
+        <div class="sunrise-sunset main-card"></div>
+      </div>
+    </div>
+    <div class="cards"></div>
+  </div>
+</body>
+</html>
